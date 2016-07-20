@@ -6,13 +6,32 @@ _vagga ()
 {
     CUR="${COMP_WORDS[COMP_CWORD]}"
     COMPREPLY=()
+    vagga_commands="_run _build"
 
     containers=$(vagga 2>&1 >/dev/null | awk 'FNR > 1 { print $1 }')
 
     if [[ ${COMP_CWORD} == 1 ]]
     then
-        COMPREPLY=( $(compgen -W "${containers}" -- ${CUR}) )
+        COMPREPLY=( $(compgen -W "${containers} ${vagga_commands}" -- ${CUR}) )
         return 0
+    else
+        cur_command=""
+        index=1
+        while [ ! -z cur_command ] && [ $index -lt $COMP_CWORD ]
+        do
+            proc_command=${COMP_WORDS[$index]}
+            if [[ $vagga_commands == *$proc_command* ]]
+            then
+                cur_command=$proc_command
+            fi
+            index=$(( $index + 1))
+        done
+
+        case $cur_command in
+            _run|_build)
+            COMPREPLY=( $(compgen -W "${containers}" -- ${CUR}) )
+            ;;
+        esac
     fi
 }
 complete -F _vagga vagga 
