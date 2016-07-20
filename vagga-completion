@@ -1,0 +1,18 @@
+if [[ -n ${ZSH_VERSION-} ]]; then
+    autoload -U +X bashcompinit && bashcompinit
+fi
+
+_vagga ()
+{
+    CUR="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=()
+
+    containers=$(vagga 2>&1 >/dev/null | awk 'FNR > 1 { print $1 }')
+
+    if [[ ${COMP_CWORD} == 1 ]]
+    then
+        COMPREPLY=( $(compgen -W "${containers}" -- ${CUR}) )
+        return 0
+    fi
+}
+complete -F _vagga vagga 
