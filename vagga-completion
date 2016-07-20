@@ -6,13 +6,13 @@ _vagga ()
 {
     CUR="${COMP_WORDS[COMP_CWORD]}"
     COMPREPLY=()
-    vagga_commands="_run _build"
+    vagga_builtin_commands="_run _build"
 
-    containers=$(vagga 2>&1 >/dev/null | awk 'FNR > 1 { print $1 }')
+    vagga_commands=$(vagga 2>&1 >/dev/null | awk 'FNR > 1 { print $1 }')
 
     if [[ ${COMP_CWORD} == 1 ]]
     then
-        COMPREPLY=( $(compgen -W "${containers} ${vagga_commands}" -- ${CUR}) )
+        COMPREPLY=( $(compgen -W "${vagga_builtin_commands} ${vagga_commands}" -- ${CUR}) )
         return 0
     else
         cur_command=""
@@ -29,7 +29,7 @@ _vagga ()
 
         case $cur_command in
             _run|_build)
-            COMPREPLY=( $(compgen -W "${containers}" -- ${CUR}) )
+            COMPREPLY=()  # Working on adding containers parser
             ;;
         esac
     fi
