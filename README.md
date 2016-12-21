@@ -4,10 +4,11 @@ This is a little autocompletion script for [http://github.com/tailhook/vagga](va
 
 ### How to use it?
 
-Just clone it and add to you `~/.bashrc` (or `~/.zshrc`, if you are using zsh) this string 
+Just clone it and add to you `~/.bashrc` (or `~/.zshrc`, if you are using zsh) this string and then reload your shell (`source ~/.<shell>rc`)
 ```bash
     source <path-to-repo>/vagga-completion
 ```
+For example, if you cloned this into folder `projects` of your home directory, the path is `/home/user/projects/vagga-completion/vagga-completion`.
 
 ### What it can complete?
 
